@@ -1,9 +1,18 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
 int main(){
 
     char* strInput;
+    strInput = (char *)malloc(100*sizeof(char));
+
+    if(strInput == NULL)
+    {
+        printf("NO memory allocated");
+        return 0;
+    }
+
     puts("Type an input string: \n");
     gets(strInput);
     
@@ -29,7 +38,7 @@ int main(){
     }
 
     printf("Lowercase-Letters: %d Uppercase-Letters: %d other-characters: %d digits: %d", lowercaseLetters, uppercaseLetters, otherCharacters, digits);
-
+    free(strInput);
 
     return 0;
 }
