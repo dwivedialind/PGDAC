@@ -1,0 +1,26 @@
+1. constexpr like const, can be applied to variables. Unlike const, constexpr can also be applied to functions and class constructors. constexpr indicates that the value, or return value, is constant and, where possible, is computed at compile time.
+A constexpr integral value can be used wherever a const integer is required, such as in template arguments and array declarations. And when a value is computed at compile time instead of run time, it helps your program run faster and use less memory.
+
+Syntax:
+
+constexpr literal-type identifier = constant-expression;
+constexpr literal-type identifier {constant-expression};
+constexpr literal-type identifier (params)
+constexpr ctor (params);
+
+param: One or more parameters, each of which must be a literal type and must itself be a constant expression.
+
+Return value: A constexpr variable or function must return a literal type.
+
+2. constexpr variable:
+The primary differnce between const and constexpr variable is that the initialization of ocnst variables is that the initialization of const variable can be deferred until run time. A constexpr variable must be initialized at compile time. All constexpr variable are const.
+
+i. A variable can be declared with constexpr, when it has a literal type and is initialized. If the initialization is performed by a constructor, the constructor must be declared as constexpr.
+
+ii. A reference may be declared as constexpr when both these conditions are met: The referenced object is initialized by a constant expression, and any implicit conversions invoked during initialization are also constant expressions.
+
+iii. All declarations of a constexpr variable or function must have the constexpr specifier.
+
+
+3. constexpr functions:
+A constexpr function is one whose return value is computable at compile time when consuming code requires it. Consuming code requires the return value at compile time to initialize a constexpr variable, or to provide a non-type template argument. 
