@@ -1,0 +1,33 @@
+1. Source: Exchanges, Market Vendors - because they have structured data
+2. Data Format: CSV - easy to utilise
+3. Data Reception: HFT system establish connection to data sources and continously receive data streams
+2. Parsing: The received data needs to be parsed to extract relevant information like:
+i. instrument identifiers(stock symbols)
+ii.Bid/ask prices
+iii. Order book depth(number of buy and sell orders at different price levels)
+iv. Trade details(quantity, price, temstamp)
+3. Validation and cleaning: Data might contain errors and inconsistencies. HFT systems must implement checks to ensure data integrity and filter out any invalid information.
+4. Normalization: Data from different sources might have varying formats or units Normalization ensures consistent representation for further processing and analysis
+5. Data Storage: Processed data is often stored in low-latency data structure like:
+Ring Buffer : circular buffers that allow efficient addtion and removal of data elements, minimizing latency.
+HashTables: Enable fast retrieval of specific data points based on keys.
+6. Dissemination: Processed data is made available to other components of the HFT system, such as the the order generation and execution module or the algorithmic trading strategy engine.
+
+Steps: I am going to perform:
+1. Source: where I can get some structured data.
+2. Data Format: convert the format to CSV.
+3. Data Reception: establish connection to data sources to continously receive data streams.
+
+
+1. Type of data I am getting: Symbol:
+AAPL (Apple Inc.)
+Timestamp: 2024-03-16 15:10:00.001
+Bid Price: $150.25 -- it represents the highest price that a buyer is currently willing to pay for one share of AAPL stock. It essentially reflects the current demand for the stock.
+Ask Price: $150.30 -- This represents the lowest price that a seller is currently willing to accept for one share of AAPL stock. It reflects the current supply of the stock.
+Volume: 100 shares: This indicates the number of shares of AAPL stock that have been traded at the given bid and ask prices withing a specific timeframe This data point reflects the trading activity for the stock. 
+
+A transaction(trade) occurs only if a buyer's bid price meets or exceeds a seller's ask price. 
+HFT systems constantly monitor these data points to identify potential trading opportunities based on price movements, order book depth and volume changes.
+
+
+

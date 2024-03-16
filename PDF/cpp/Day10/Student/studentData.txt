@@ -1,0 +1,3 @@
+12,Alind Dwivedi,101,DAC,2000
+102,Raghu,102,DBDA,3000
+13,Rahim,102,DESD,5000
