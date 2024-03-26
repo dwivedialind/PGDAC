@@ -1,0 +1,21 @@
+1. ORDBMS: Object relational dbms == RDBMS + OODBMS (Oracle) 
+2. Convert raw data(meaningless data) to meaningful data to take business decissions by processing.
+3. Database(collection of large amount of data). DBMS is a collection of programs to perform to insert, updata and delete -- Ansi definiton.
+
+DBMS vs RDBMS
+i. Nomenaclature DBMS(MS Excel) vs RDBMS(Oracle): File/Table Field/Attribute(Column) Record/Tuple(Row,Entity)
+ii. In DBMS relationship b/w two file has to be maintained programattically. In RDBMS relationship b/w two tables can be specified at the time of table creation (foreign key constraint).
+iii. More time needed for s/w development vs less time for software development.
+iv. High network traffic, slow and expensive vs low network traffic(b/c of client-server architecture), fast and cheaper in terms of network infra. cost, hardware cost.
+v. Processing on server machine (client server architecture)
+vi. Most of RDBMS support client-server architecture (MS Access is exception)
+vii. RDBMS row-level locking and DBMS have file level locking, suitable for multi user.
+viii. DBMS do not support distributed database, while RDBMS have distributed database.
+ix. DBMS have no security. While RDBMS have 
+ a. Logging in security - username and password to login
+ b. command level security - not everyone have permission to create user.
+ c. object level security - Permission to access table of other users. 
+
+RDBMS doesn't allow access to OS, while access to DBMS is allowed using OS.
+
+x. 
