@@ -1,0 +1,1 @@
+- Chrome Extension: A small software program that adds feature and functionality to Google chrome web browser. Generally created using HTML,CSS&JS.
