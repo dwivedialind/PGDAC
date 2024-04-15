@@ -1,0 +1,24 @@
+1. Extra in RDBMS oracle i. DTL/TCL(transaction control language)
+commit, rollback, savepoint
+2. DDL rename, trucate.
+3. Extra in Oracle RDBMS only - DML - upser(update+insert) merge
+
+4. Rules for table names, column names and variable names:
+Oracle: Max 30 characters MySQL: Max 64 characters
+alphanumeric characters, has to begin with alphabet,
+can have special characters such as $,#,_ allowed.
+In UNIX/LINUX table and column names are case sensitive but in windows are not.
+134 reserved words are not allowed.
+
+Day 2:
+
+Data types:
+1. char - fixed length, default width 1, max 255 char, wastage of HD space, fast searching
+2. varchar - variable length, no default width , width need to be specified,
+max characters (64kb -1) 65535 characters, less wastage of space, searching and retrieval is compromised.
+
+3. text(allows any character) i. tinytext(max upto 255 characters)
+ii.text(max upto 65535 characters) iii. mediumtext(16 mb) iv.longtext(4GB)
+a. stored outside the table, mysql maintain a locator(hd pointer) from table row to location where it is stored.
+b. width does not have to be specifed.
+c. used for storage and displya purposes not searching

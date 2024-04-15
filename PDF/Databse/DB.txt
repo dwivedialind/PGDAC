@@ -1,0 +1,16 @@
+delete from semp where rowid in (select b.rowid from semp a, semp b
+where a.empno = b.empno and
+a.rowid < b.rowid);
+select * from semp;
+
+
+
+
+
+
+
+
+
+select sum(a.balance) from (select rowid rowd, (depo-withd) balance from bank) a,
+(select rowid rowd, (depo-withd) balance from bank) b
+where b.rowd >= a.rowd group by b.rowd order by b.rowd;
