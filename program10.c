@@ -1,4 +1,4 @@
-#include<stdio.h>
+sakdfsdfk#include<stdio.h>
 
 void readStudents(char* student[]){
 
