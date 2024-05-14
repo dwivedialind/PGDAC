@@ -1,0 +1,24 @@
+1. Unique Constraint:
+i. table level & also column level constraint.
+ii. there is no limit on no. of unique constraints on table.
+iii. duplicate values are not allowed.
+iv. null values are allowed (null values are treated differently).can enter any number of null values.
+v. unique indexes are created automatically.
+vi. Text and Blob can not have unique constraint.
+vii. can combine upto 32 columns in composite unique. 
+viii. Unique constraint is also an index so to drop it use
+drop index mob_no on emp;
+
+ix. constraint name is optional(try to give meaningful names)
+alter table employee add constraint u_emp_ename unique(ename);
+
+2. Column level constraint can be specified at table level except 'not null' constraint, which is column level constraint hence syntax will not support you from specifying at table level.
+But a table level composite constraint cannot be specified at column level.
+
+3. Foreign Key constraint:
+i. Foreign column, or set of columns that references a column or set of columns of some table.
+foreign key constraint is specified on chile column(not the parent column).
+ii. The parent column, it has to be primary key or unique.
+iii. Foreign key will allow duplicate values unless specified otherwise, will allow null values unless specified otherwise.
+iv. foreign key may reference column of same table also known as self-referencing.
+

@@ -146,3 +146,39 @@ This code does the same: loads 3 scripts in sequence. But it **"grows to the rig
 
 Sometime it's ok to write <code>.then</code> directly, because the nested function
 has access to the outer scope.
+
+###### Thenables
+
+A handler may return not exactly a promise, but a so-called **thenable** object-an arbitrary object that has a method <code>.then</code>. It will be treated the same way as promise.
+
+The idea is that 3rd-party libraries may implement "promise-compatible" objects of their own. They can have an extended set of methods, but also be compatible with native promises, because they implement <code>.then</code>
+
+```JS
+class Thenable {
+  constructor(num) {
+    this.num = num;
+  }
+  then(resolve, reject) {
+    alert(resolve); //function() {native code}
+    //resolve with this.num*2 after 1 second
+    setTimeout(() => {
+      resolve(this.num * 2);
+    }, 1000);
+  }
+}
+
+new Promise((resolve) => resolve(1))
+  .then((result) => {
+    return new Thenable(result);
+  })
+  .then(alert);
+
+```
+
+###### Bigger example: fetch
+
+```JS
+let promise = fetch(url);
+```
+
+This makes a network request to the <code>url</code> and returns a promise. The promise resolves with a <code>response</code> object when the remote server responds with headers, but _before the full response is downloaded_

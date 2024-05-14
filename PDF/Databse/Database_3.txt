@@ -1,0 +1,72 @@
+1. Stored Objects: Anything that you do with create command is stored object. Objects that are stored in the database.
+Maximum of 30 characters
+ex. tables, Indexes
+
+2.Views:  present in all RDBMS, some of dbms also
+Why do we create a view?
+i. For security purposes, if we want other user just to have select privileges,on certain rows and columns. thus to restrict access to columns and rows we can use views.
+ii. handle to tables
+iii. view is a HD pointer(stores address of a table) also know as locator.
+iv. View is used for indirect access to table. 
+v. Views is a stored query. Views are stored in system table(system table are also views) in compiled format-> benefits of compiled format
+	a. execution is fast
+	b. source code is hidden.
+vi. View does not contain data, it only has access to it, you can create as many view as you want, if necessary create separate views for different users.
+
+
+3. command to create a view:
+create view view_name ....;
+
+CREATE OR REPLACE VIEW VIEW_NAME AS SELECT .......;
+
+4. How to see views?
+SHOW TABLES; -- show table and views but don't tell which is table or which is view.
+show full tables; -- show which is table which is view
+
+To see select statement on which view is based
+show create view <view_name>;
+
+5. Using view with DML operations?
+
+DML operations can be performed on a view & DML operations done on a view will affect the base table.
+Constraints that are specified on the table will always be enforced if you insert via the view.
+Using view we can insert only those columns that are in Select clause of view.
+
+ii. 
+create or replace view v1
+as
+select * from employee where deptno = 1;
+
+insert into v1 values (6,'F',6000,2); -- where clause comes into picture only with select.
+
+If you want to insert or update or delete only when where clause condition fulfills
+
+create or replace view v1
+as
+select * from employee where deptno = 1 with check option;
+
+insert into v1 values (4, 'H', 5200, 2); -- will give error
+
+This is used to enforce different checks for different users.
+
+6. How to drop a view?
+
+drop view v1; -- only owner can drop view
+
+7. Type of views that are allowed.
+
+i. view based on computed column/expression/function are allowed
+ii. In mysql you can only SELECT from this view.
+iii. DML operations not allowed.
+
+8. Is view based on joins allowed?
+
+CREATE OR REPLACE VIEW v1
+    -> as
+    -> select Cname, Sname from CUSTOMERS, SALESPEOPLE WHERE
+    -> CUSTOMERS.Snum = SALESPEOPLE.Snum;
+
+9. Views based on views is allowed?
+i. To extend the limits of SQL, union of greater than 255 select statements, 255 single row functions.
+ii. to simplify wirting of complex SELECT statements, join of 40 tables.
+iii. Complex queries can be stored in view definition. 
