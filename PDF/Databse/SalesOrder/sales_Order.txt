@@ -1,0 +1,526 @@
+TABLES
+
+alind>desc Branch_mst;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| Branch_cd   | int         | NO   | PRI | NULL    | auto_increment |
+| Branch_name | varchar(25) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+Indexes: 
+
+alind>create index i_branch_mst_branch_cd on Branch_mst(Branch_cd);
+alind>create index i_branch_mst_branch_name on Branch_mst(Branch_name);
+
+
+Views:
+
+i. v_branch_mst - to view all Branch_mst
+alind>create view v_branch_mst
+as select concat('ABC',right(concat('00',Branch_cd),2)) as 'Branch_cd', Branch_name from Branch_mst order by 1;
+Query OK, 0 rows affected (0.11 sec)
+
+alind>select * from v_branch_mst;
++-----------+-------------+
+| Branch_cd | Branch_name |
++-----------+-------------+
+| ABC01     | PUNB        |
+| ABC02     | ICICI       |
++-----------+-------------+
+2 rows in set (0.00 sec)
+
+
+ii. i_branch_mst: to insert into Branch_mst need: Branch_name 
+alind>create view i_branch_mst
+as
+select Branch_name from Branch_mst;
+
+alind>insert into i_branch_mst values ('AXIS');
+Query OK, 1 row affected (0.00 sec)
+
+alind>select * from i_branch_mst;
++-------------+
+| Branch_name |
++-------------+
+| AXIS        |
+| ICICI       |
+| PUNB        |
++-------------+
+3 rows in set (0.00 sec)
+
+
+iii. u_branch_mst: to update Branch_mst need: Branch_name
+alind>create view u_branch_mst 
+    -> as
+    -> select Branch_cd, Branch_name from Branch_mst
+    -> ;
+
+alind>update u_branch_mst set Branch_name = 'UNION' 
+    -> where
+    -> Branch_cd = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+alind>select * from v_branch_mst;
++-----------+-------------+
+| Branch_cd | Branch_name |
++-----------+-------------+
+| ABC01     | PUNB        |
+| ABC02     | UNION       |
+| ABC03     | AXIS        |
++-----------+-------------+
+3 rows in set (0.00 sec)
+ 
+
+
+
+
+
+------------------------------------------
+
+alind>desc Mktg_territory_mst;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| Area_cd   | int         | NO   | PRI | NULL    | auto_increment |
+| Area_name | varchar(25) | NO   |     | NULL    |                |
+| Branch_cd | int         | NO   | MUL | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+
+Indexes:
+
+alind>create index i_Mktg_territory_mst_Area_cd on Mktg_territory_mst(Area_cd);
+alind>create index i_Mktg_territory_mst_Area_name on Mktg_territory_mst(Area_name);
+alind>create index i_Mktg_territory_mst_Branch_cd on Mktg_territory_mst(Branch_cd);
+
+Views:
+
+i. v_Mktg_territory_mst: to view Mktg_territory_mst
+
+alind>create view v_Mktg_territory_mst  as select concat(concat('ABC',right(concat('00',Branch_cd),2)),right( concat('00',Area_cd),2))  as 'Area_cd', Area_name,  concat('ABC',right(concat('00',Branch_cd),2)) as 'Branch_cd' from Mktg_territory_mst;
+
+alind>select * from v_Mktg_territory_mst;
++---------+-----------+-----------+
+| Area_cd | Area_name | Branch_cd |
++---------+-----------+-----------+
+| ABC0101 | Rau       | ABC01     |
++---------+-----------+-----------+
+
+ii. i_Mktg_territory_mst: insert into Mktg_territory_mst need(Area_name, Branch_cd)
+alind>create view i_Mktg_territory_mst as select Area_name, Branch_cd
+    -> from Mktg_territory_mst;
+
+
+alind>insert into i_Mktg_territory_mst
+    -> values
+    -> ('Pune', 3);
+Query OK, 1 row affected (0.00 sec)
+
+alind>select * from v_Mktg_territory_mst;
++---------+-----------+-----------+
+| Area_cd | Area_name | Branch_cd |
++---------+-----------+-----------+
+| ABC0101 | Rau       | ABC01     |
+| ABC0302 | Pune      | ABC03     |
++---------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+iii. u_Mktg_territrory_mst: update Mktg_territory_mst need(Branch_cd,Area_name)
+
+alind>create view u_Mktg_territory_mst 
+    -> as
+    -> select Area_cd, Area_name, Branch_cd from Mktg_territory_mst;
+Query OK, 0 rows affected (0.23 sec)
+
+alind>update u_Mktg_territory_mst set Area_name = 'Indore' where
+    -> Area_cd = 2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+alind>select * from v_Mktg_territory_mst;
++---------+-----------+-----------+
+| Area_cd | Area_name | Branch_cd |
++---------+-----------+-----------+
+| ABC0101 | Rau       | ABC01     |
+| ABC0302 | Indore    | ABC03     |
++---------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+
+---------------------------------------
+
+
+alind>desc Mktg_rep_mst;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| Rep_cd   | int         | NO   | PRI | NULL    | auto_increment |
+| Rep_name | varchar(25) | NO   |     | NULL    |                |
+| Area_cd  | int         | NO   | MUL | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+Indexes:
+
+alind>create index i_Mktg_rep_mst_Rep_cd on Mktg_rep_mst(Rep_cd);
+alind>create index i_Mktg_rep_mst_Rep_name on Mktg_rep_mst(Rep_name);
+alind>create index i_Mktg_rep_mst_Area_cd on Mktg_rep_mst(Area_cd);
+
+
+Views:
+
+i. v_Mktg_rep_mst: 
+alind>create view v_Mktg_rep_mst
+ as select concat('REP',concat(concat(right(concat('00',Branch_cd),2),right(concat('00',Mktg_territory_mst.Area_cd),2)),right(concat('000',Rep_cd),3))) as 'Rep_cd', Rep_name, concat(concat('ABC',right(concat('00',Branch_cd),2)),right( concat('00',Mktg_rep_mst.Area_cd),2))  as 'Area_cd' from Mktg_rep_mst, Mktg_territory_mst where Mktg_territory_mst.Area_cd = Mktg_rep_mst.Area_cd;
+Query OK, 0 rows affected (0.25 sec)
+
+alind>select * from v_Mktg_rep_mst;
++------------+----------+---------+
+| Rep_cd     | Rep_name | Area_cd |
++------------+----------+---------+
+| REP0101002 | Rahul    | ABC0101 |
+| REP0302003 | Raj      | ABC0302 |
++------------+----------+---------+
+2 rows in set (0.01 sec)
+
+
+ii. i_Mktg_rep_mst: to insert into Mktg_rep_mst need(Rep_name, Area_cd)
+alind>create view i_Mktg_rep_mst
+    -> as
+    -> select Rep_name, Area_cd from Mktg_rep_mst;
+
+alind>insert into i_Mktg_rep_mst values
+    -> ('Karan', 1);
+Query OK, 1 row affected (0.08 sec)
+
+alind>select * from v_Mktg_rep_mst;
++------------+----------+---------+
+| Rep_cd     | Rep_name | Area_cd |
++------------+----------+---------+
+| REP0101002 | Rahul    | ABC0101 |
+| REP0302003 | Raj      | ABC0302 |
+| REP0101004 | Karan    | ABC0101 |
++------------+----------+---------+
+3 rows in set (0.00 sec)
+
+
+iii. u_Mktg_rep_mst: to update Mktg_rep_mst need(Area_cd) 
+
+create view u_Mktg_rep_mst
+as
+select Rep_cd, Rep_name, Area_cd from Mktg_rep_mst;
+
+alind>select * from v_Mktg_rep_mst;
++------------+----------+---------+
+| Rep_cd     | Rep_name | Area_cd |
++------------+----------+---------+
+| REP0101002 | Rahul    | ABC0101 |
+| REP0302003 | Raj      | ABC0302 |
+| REP0101004 | Karan    | ABC0101 |
++------------+----------+---------+
+3 rows in set (0.00 sec)
+
+alind>update u_Mktg_rep_mst
+    -> set Area_cd = 2
+    -> where Rep_cd = 4;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+alind>select * from v_Mktg_rep_mst;
++------------+----------+---------+
+| Rep_cd     | Rep_name | Area_cd |
++------------+----------+---------+
+| REP0101002 | Rahul    | ABC0101 |
+| REP0302003 | Raj      | ABC0302 |
+| REP0302004 | Karan    | ABC0302 |
++------------+----------+---------+
+3 rows in set (0.00 sec)
+
+
+-----------------------
+
+alind>desc Customer_mst;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| Cust_cd   | int         | NO   | PRI | NULL    | auto_increment |
+| Cust_name | varchar(25) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+
+Indexes:
+alind>create index i_Customer_mst_Cust_cd on Customer_mst(Cust_cd);
+alind>create index i_Customer_mst_Cust_name on Customer_mst(Cust_name);
+
+
+Views:
+
+i. v_Customer_mst:
+
+alind>create view v_Customer_mst  as  select concat('C',right(concat('000000',Cust_cd),6)) as 'Cust_cd', Cust_name from Customer_mst order by Cust_cd;
+Query OK, 0 rows affected (3.90 sec)
+
+alind>select * from v_Customer_mst;
++---------+-----------------+
+| Cust_cd | Cust_name       |
++---------+-----------------+
+| C000001 | Sameer Saraswat |
+| C000002 | Rohan Mehra     |
++---------+-----------------+
+
+
+ii. i_Customer_mst: insert into Customer mst need(Cust_name)
+
+alind>create view i_Customer_mst
+    -> as
+    -> select Cust_name from Customer_mst;
+    
+alind>select * from v_Customer_mst;
++---------+-----------------+
+| Cust_cd | Cust_name       |
++---------+-----------------+
+| C000001 | Sameer Saraswat |
+| C000002 | Rohan Mehra     |
++---------+-----------------+
+2 rows in set (0.00 sec)
+
+alind>insert into i_Customer_mst
+    -> values ('Taran Khanna');
+Query OK, 1 row affected (0.16 sec)
+
+alind>select * from v_Customer_mst;
++---------+-----------------+
+| Cust_cd | Cust_name       |
++---------+-----------------+
+| C000001 | Sameer Saraswat |
+| C000002 | Rohan Mehra     |
+| C000003 | Taran Khanna    |
++---------+-----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+---------------------
+
+alind>desc Product_mst;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Prod_cd       | char(4)     | NO   | PRI | NULL    |       |
+| Prod_name     | varchar(25) | NO   |     | NULL    |       |
+| Qty_on_hand   | int         | NO   |     | NULL    |       |
+| Reorder_level | int         | NO   |     | NULL    |       |
+| Maximum_level | int         | NO   |     | NULL    |       |
+| Booked_qty    | int         | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+Indexes:
+
+alind>create index i_Product_mst_Prod_cd 
+alind>create index i_Product_mst_Prod_name  on Product_mst(Prod_name);
+
+
+alind>select * from Product_mst;
++---------+-----------+-------------+---------------+---------------+------------+
+| Prod_cd | Prod_name | Qty_on_hand | Reorder_level | Maximum_level | Booked_qty |
++---------+-----------+-------------+---------------+---------------+------------+
+| P101    | Laptop    |         100 |            20 |            32 |        334 |
++---------+-----------+-------------+---------------+---------------+------------+
+1 row in set (0.00 sec)
+
+Views:
+
+i. v_Product_mst:
+create view v_Product_mst 
+as
+select Prod_cd, Prod_name, Qty_on_hand, Reorder_level, Maximum_level, Booked_qty
+from Product_mst;
+
+ii. i_Product_mst_cdName:
+
+create view i_Product_mst_cdName
+as
+select Prod_cd, Prod_name, Qty_on_hand, Reorder_level, Maximum_level, Booked_qty from Product_mst;
+
+
+alind>insert into i_Product_mst_cdName
+    -> values
+    -> ('P102', 'SDD', 40,10,32,133);
+Query OK, 1 row affected (0.07 sec)
+
+alind>select * from v_Product_mst;
++---------+-----------+-------------+---------------+---------------+------------+
+| Prod_cd | Prod_name | Qty_on_hand | Reorder_level | Maximum_level | Booked_qty |
++---------+-----------+-------------+---------------+---------------+------------+
+| P101    | Laptop    |         100 |            20 |            32 |        334 |
+| P102    | SDD       |          40 |            10 |            32 |        133 |
++---------+-----------+-------------+---------------+---------------+------------+
+2 rows in set (0.01 sec)
+
+
+Reorder Level cannot be greater than the Maximum Level.
+
+alind>update Product_mst
+    -> set Maximum_level = 5;
+ERROR 3819 (HY000): Check constraint 'Product_mst_Reorder_Max' is violated.
+
+Qty booked cannot be greater than Qty_on_hand.
+
+alind>update Product_mst set Booked_qty = 70 where Prod_cd = 'P102';
+ERROR 3819 (HY000): Check constraint 'Product_mst_booked_hand' is violated.
+
+
+
+-------------------------
+
+alind>desc Order_mst;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| Branch_cd    | int          | NO   | PRI | NULL    |       |
+| Order_no     | int          | NO   | PRI | NULL    |       |
+| Order_dt     | date         | NO   |     | NULL    |       |
+| Cust_cd      | int          | NO   | MUL | NULL    |       |
+| Rep_cd       | int          | NO   | MUL | NULL    |       |
+| Order_status | char(1)      | NO   |     | P       |       |
+| Valid_upto   | date         | NO   |     | NULL    |       |
+| Remarks      | varchar(200) | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+Indexes:
+alind>create index i_Order_mst_Branch_cd on Order_mst(Branch_cd)//
+alind>create index i_Order_mst_Branch_cd_Order_no on Order_mst(Branch_cd, Order_no)//
+alind>create index i_Order_mst_Cust_cd on Order_mst(Cust_cd)//
+alind>create index i_Order_mst_Rep_cd on Order_mst(Rep_cd)//
+alind>create index i_Order_mst_Order_status on Order_mst(Order_status)//
+alind>create index i_Order_mst_Valid on Order_mst(Valid_upto)//
+
+Viewes: 
+
+create view v_Order_mst 
+as 
+select concat('ABC',right(concat('00',Order_mst.Branch_cd),2)) as 'Branch_cd', Order_no, Order_dt, concat('C',right(concat('000000',Order_mst.Cust_cd),6)) as 'Cust_cd', concat('REP',concat(concat(right(concat('00',Order_mst.Branch_cd),2),right(concat('00',Mktg_territory_mst.Area_cd),2)),right(concat('000',Order_mst.Rep_cd),3))) as 'Rep_cd', Order_status, Valid_upto, Remarks from Order_mst, Mktg_territory_mst  where Mktg_territory_mst.Branch_cd = Order_mst.Branch_cd;
+
+
+alind>select * from v_Order_mst;
++-----------+----------+------------+---------+------------+--------------+------------+---------+
+| Branch_cd | Order_no | Order_dt   | Cust_cd | Rep_cd     | Order_status | Valid_upto | Remarks |
++-----------+----------+------------+---------+------------+--------------+------------+---------+
+| ABC01     |        1 | 2024-03-31 | C000001 | REP0101002 | P            | 2024-04-10 | Orders  |
++-----------+----------+------------+---------+------------+--------------+------------+---------+
+1 row in set (0.00 sec)
+
+2. We can't allow to insert in Order_mst in branch code where rep didn't exist and vice-versa.
+
+create trigger Order_mst_insert1
+before insert
+on Order_mst for each row
+begin
+
+if new.Rep_cd in (select Rep_cd from Mktg_rep_mst,Mktg_territory_mst where Mktg_territory_mst.Branch_cd = new.Branch_cd and Mktg_territory_mst.Area_cd = Mktg_rep_mst.Area_cd) then
+insert into Order_Ins values
+(user(),'Insert','Order_mst',sysdate());
+else
+insert into Order_Ins values ();
+end if;
+
+end//
+
+3. No order can be modified once it has been Cancelled or Delivered.
+
+create trigger Order_mst_update1
+before update
+on Order_mst for each row
+begin
+
+if old.Order_status = 'C' or old.Order_status = 'D' then
+insert into Order_Ins values ();
+else
+insert into Order_Ins values
+(user(), 'Updated', 'Order_mst', sysdate());
+end if;
+
+end//
+-----------------------------
+
+alind>desc Order_dtl;
++-----------+------------+------+-----+---------+-------+
+| Field     | Type       | Null | Key | Default | Extra |
++-----------+------------+------+-----+---------+-------+
+| Branch_cd | int        | NO   | PRI | NULL    |       |
+| Order_no  | int        | NO   | PRI | NULL    |       |
+| Prod_cd   | char(4)    | NO   | PRI | NULL    |       |
+| Qty       | int        | NO   |     | NULL    |       |
+| Rate      | float(6,2) | NO   |     | NULL    |       |
++-----------+------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+create view v_Order_dtl
+as
+select concat('ABC',right(concat('00',Branch_cd),2)) as 'Branch_cd',
+Order_no, Prod_cd, Qty, Rate from Order_dtl;
+
+
+alind>select * from v_Order_dtl;
++-----------+----------+---------+-----+--------+
+| Branch_cd | Order_no | Prod_cd | Qty | Rate   |
++-----------+----------+---------+-----+--------+
+| ABC01     |        1 | P101    | 200 | 300.00 |
++-----------+----------+---------+-----+--------+
+1 row in set (0.00 sec)
+
+
+-----------------------------
+
+Order_Ins table which stores what orders has been inserted.
+
+aalind>desc Order_Ins;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| User      | varchar(30) | NO   |     | NULL    |       |
+| Operation | varchar(10) | YES  |     | NULL    |       |
+| OprTable  | varchar(20) | YES  |     | NULL    |       |
+| Time      | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+5 rows in set (0.00 sec)
+
+
+alind>create view v_Order_Ins
+    -> as
+    -> select User, Operation, OprTable, Time from Order_Ins;
+
+
+------------------------------
+
+b. Programs for accepting new orders and modifying pending orders
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

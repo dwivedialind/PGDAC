@@ -1,0 +1,11 @@
+1. https://www.mongodb.com/databases/data-persistence: When data is persisted it means exact data can be retrieved by an application, when it is opened again.
+2. Data Integration: bringing data from multiple sources and then go through ELT(Extract, load, transform) pipeline into unified coherent format, and can be put to use for
+various analytical, operational and decision-making purposes.
+3. SQL transactions
+4. Reporting
+
+Impedance Mismatch:
+
+Impedance mismatch, in computer science, occurs when two systems trying to communicate have incompatible ways of representing or exchanging data. This can be like trying to fit a square peg in a round hole, leading to errors or inefficiencies.
+
+For example, imagine an online store (system 1) uses a database that stores product information in objects with details like name, price, and stock. But their payment gateway (system 2) expects a flat file with just product IDs and prices. Converting between these formats creates an impedance mismatch.

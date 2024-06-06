@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>My spending record</title>
+    <link href="minimal-table.css" rel="stylesheet" type="text/css" />
+    <style>
+      tbody {
+        font-size: 95%;
+        font-style: italic;
+      }
+
+      tfoot {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My spending record</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th id="clothes" colspan="3">Clothes</th>
+        </tr>
+        <tr>
+          <th id="trousers" headers="clothes">Trousers</th>
+          <th id="skirts" headers="clothes">Skirts</th>
+          <th id="dresses" headers="clothes">Dresses</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="belgium" rowspan="3">Belgium</th>
+          <th id="antwerp" headers="belgium">Antwerp</th>
+          <td headers="antwerp belgium clothes trousers">56</td>
+          <td headers="antwerp belgium clothes skirts">22</td>
+          <td headers="antwerp belgium clothes dresses">43</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
