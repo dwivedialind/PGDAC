@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "apollo-server": "^3.13.0",
+    "express": "^4.19.2",
+    "graphql": "^16.8.1",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.3"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "app-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
